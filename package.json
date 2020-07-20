@@ -1,0 +1,16 @@
+{
+  "name": "searchengine",
+  "version": "1.0.0",
+  "description": "A Search Engine for github wikis.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Syed Osama Hussain",
+  "license": "ISC",
+  "dependencies": {
+    "commonmark": "^0.29.1",
+    "stemmer": "^1.0.5",
+    "walk": "^2.3.14"
+  }
+}
