@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "commonmark": "^0.29.1",
+    "express": "^4.17.1",
     "stemmer": "^1.0.5",
     "walk": "^2.3.14"
   }

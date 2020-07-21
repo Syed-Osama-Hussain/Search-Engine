@@ -31,7 +31,10 @@ walker.on('end', () => {
             result.push(index[fileName][i]);
         }
     }
-    console.log(JSON.stringify(result));
+
+    console.log(result.length);
+    result = JSON.stringify(result)
+    fs.writeFile('indexedData.json', result, 'utf8', ()=>{console.log("done")});
 });
 
 function processFile(fileName,content){
@@ -40,28 +43,28 @@ function processFile(fileName,content){
     const tags = breakIntoTags(title);    
     const tree = contentToMarkdownTree(content);
     const processedContent = processContent(title, tree);
-
     for(let heading in processedContent){
         const headingTags = breakIntoTags(heading);
 
         for(let i=0; i< processedContent[heading].length; i++){
             const item = processedContent[heading][i];
-            const data = convertToSearchData(title, heading, tags, item);
+            const data = convertToSearchData(title, heading, tags, item,headingTags);
             result.push(data);
         }
     }
+
     return result;
 }
 
 function breakIntoTags(text){
-    let clean = text.replace('/[^a-zA-z]/g',' ');
+    let clean = text.replace(/[^a-zA-Z]/g,' ');
     clean = clean.toLowerCase();
+    clean = clean.split(' ');
     let tagsHash = Object.create(null);
-    
     for(let i=0; i < clean.length; i+=1){
         if(shouldIgnoreWord(clean[i]))
-            continue;
-        
+        {    continue;
+        }
         const stemmed = stemmer(clean[i]);
         tagsHash[stemmed] = true;
         tagsHash[clean[i]] = true;
@@ -92,7 +95,7 @@ function processContent(title, tree){
     let currentText = null;
     let sections = {null: []};
 
-    while(event == walker.next()){
+    while((event = walker.next())){
         node = event.node;
         if(node.type === "heading"){
             currentHeading = getNodeChildrenText(node);
@@ -120,7 +123,7 @@ function getNodeChildrenText(node){
     return text;
 }
 
-function convertToSearchData(title, heading, tags, item){
+function convertToSearchData(title, heading, tags, item, headingTags){
     const subHeadingUrl = heading.replace(/\s+/g, '-').replace(/[\/()]/g, '').toLowerCase();
     const id = generateId(title, heading, item.content);
 
