@@ -3,7 +3,8 @@ const fs = require('fs'),
     walk = require('walk'),
     commonmark = require('commonmark'),
     stemmer = require('stemmer'),
-    crypto = require('crypto');
+    crypto = require('crypto'),
+    {Content} = require('./models/content');
 
 const wikiUrlPrefix = process.argv[2];    
 const wikiDir = 'wiki/';
@@ -16,6 +17,7 @@ walker.on('file', (root, filestats, next) => {
         const pathName = path.join(wikiDir,fileName);
         const content = fs.readFileSync(pathName).toString();
         index[fileName] = processFile(fileName,content);
+        // processFile(fileName,content);
     }
     next();
 });
@@ -24,17 +26,19 @@ walker.on('errors', (root, nodeStatsArray, next) => {
     next();
 });
 
-walker.on('end', () => {
+walker.on('end',  () => {
     let result = [];
     for(let fileName in index){
         for(let i=0; i < index[fileName].length; i+=1){
             result.push(index[fileName][i]);
         }
     }
-
-    console.log(result.length);
-    result = JSON.stringify(result)
-    fs.writeFile('indexedData.json', result, 'utf8', ()=>{console.log("done")});
+    // await Content.insertMany(result)
+    // console.log(result.length);
+    // result = JSON.stringify(result)
+    // fs.writeFile('indexedData.json', result, 'utf8', ()=>{console.log("done")});
+    process.send(result);
+    console.log("done")
 });
 
 function processFile(fileName,content){
@@ -125,12 +129,11 @@ function getNodeChildrenText(node){
 
 function convertToSearchData(title, heading, tags, item, headingTags){
     const subHeadingUrl = heading.replace(/\s+/g, '-').replace(/[\/()]/g, '').toLowerCase();
-    const id = generateId(title, heading, item.content);
+    // const id = generateId(title, heading, item.content);
 
     const titleUrl = `${wikiUrlPrefix}/${title.replace(' ','-')}`;
     let headingUrlSuffix = heading.toLowerCase().replace(/[\/\(\),.]/g, '').replace(/ /g, '-');
     return {
-        id: id,
         title: title,
         title_url: titleUrl,
         heading: heading,
