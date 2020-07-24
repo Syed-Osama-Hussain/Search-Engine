@@ -17,7 +17,6 @@ walker.on('file', (root, filestats, next) => {
         const pathName = path.join(wikiDir,fileName);
         const content = fs.readFileSync(pathName).toString();
         index[fileName] = processFile(fileName,content);
-        // processFile(fileName,content);
     }
     next();
 });
@@ -33,12 +32,7 @@ walker.on('end',  () => {
             result.push(index[fileName][i]);
         }
     }
-    // await Content.insertMany(result)
-    // console.log(result.length);
-    // result = JSON.stringify(result)
-    // fs.writeFile('indexedData.json', result, 'utf8', ()=>{console.log("done")});
     process.send(result);
-    console.log("done")
 });
 
 function processFile(fileName,content){
