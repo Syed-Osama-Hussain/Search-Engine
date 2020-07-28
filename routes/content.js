@@ -1,8 +1,11 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const { Content } = require('../models/content');
+const { User } = require('../models/user');
 const childProc = require('child_process');
 const searcher = require('../searcher');
+const config = require("../config.json")
 
 
 router.get("/",async (req,res) => {
@@ -31,9 +34,16 @@ router.get("/:id", async (req,res) => {
     return res
       .status(404)
       .send("The result with given Id was not found.");
-
-    res.send(content);
     
+    if(req.session.token)
+    {    
+        let user = jwt.verify(req.session.token,config.jwtPrivateKey)
+        user = await User.findById(user._id)
+        user.history.push(content._id);
+        await user.save();  
+    }
+
+    res.send(content);    
 });
 
 

@@ -28,5 +28,11 @@ router.post("/", async (req, res) => {
         .header("access-control-expose-headers","x-auth-token")
         .send(_.pick(user, ["_id", "name", "email"]));
 });
+
+
+router.get("/:id/history", async (req,res) => {
+    const user = await User.findById(req.params.id).populate("history")
+    res.send(user.history);
+});
   
 module.exports = router;
