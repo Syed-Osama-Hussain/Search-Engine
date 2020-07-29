@@ -1,9 +1,12 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+const util = require('util');
+const childProc = require('child_process');
+const exec = util.promisify(require('child_process').exec);
 const { Content } = require('../models/content');
 const { User } = require('../models/user');
-const childProc = require('child_process');
+const admin = require('../middleware/admin')
 const searcher = require('../searcher');
 const config = require("../config.json")
 
@@ -14,15 +17,29 @@ router.get("/",async (req,res) => {
 });
 
 
-router.post("/",  (req,res) => {
+router.post("/", admin , async (req,res) => {
     const url = req.body.url
+
+    if(!url.endsWith(".wiki.git")) return res.status(400).send("The URL must be of a github wiki.");
+
+    let wikiUrl = `${url.replace(".wiki.git",'')}/wiki`
+    let dirname = url.split("/");
+    dirname = dirname[dirname.length - 1].split(".")[0]
+
+    try{
+        const { stdout, stderr } = await exec(`git clone ${url} wiki/${dirname}`)
+
+    }catch(err){
+
+        res.status(404).send(err.stderr);
+    }
     // "https://github.com/Netflix/Hystrix/wiki"
-    const result = childProc.fork('../indexer.js',[url]);
+    const result = childProc.fork('../indexer.js',[wikiUrl,dirname]);
 
     result.on("message",  async (res) => {
         await Content.insertMany(res)
         res.send("Done")
-    })
+    });
     
 });
 

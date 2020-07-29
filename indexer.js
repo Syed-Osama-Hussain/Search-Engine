@@ -7,8 +7,8 @@ const fs = require('fs'),
     {Content} = require('./models/content');
 
 const wikiUrlPrefix = process.argv[2];    
-const wikiDir = 'wiki/';
-const walker = walk.walk('wiki/');
+const wikiDir = `${process.argv[3]}/`;
+const walker = walk.walk(`${process.argv[3]}/`);
 let index = Object.create(null);
 
 walker.on('file', (root, filestats, next) => {
