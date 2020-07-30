@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const util = require('util');
+const path = require('path');
 const childProc = require('child_process');
 const exec = util.promisify(require('child_process').exec);
 const { Content } = require('../models/content');
@@ -12,6 +13,7 @@ const config = require("../config.json")
 
 
 router.get("/",async (req,res) => {
+    console.log(path.join(__dirname, '../indexer.js'))
     const content = await Content.find({});
     res.send(content);
 });
@@ -33,13 +35,20 @@ router.post("/", admin , async (req,res) => {
 
         res.status(404).send(err.stderr);
     }
-    // "https://github.com/Netflix/Hystrix/wiki"
-    const result = childProc.fork('../indexer.js',[wikiUrl,dirname]);
 
-    result.on("message",  async (res) => {
-        await Content.insertMany(res)
-        res.send("Done")
-    });
+    try{
+        const result = childProc.fork(path.join(__dirname, '../indexer.js'),[wikiUrl,`wiki/${dirname}`]);
+
+        result.on("message",  async (response) => {
+            if(response.length !== 0)
+                await Content.insertMany(response)
+                res.send("Done")
+
+            res.send(404).send("No indexable data found in provided wiki")
+        });
+    }catch(ex){
+        res.send(str(ex))
+    }
     
 });
 
