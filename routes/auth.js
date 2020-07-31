@@ -19,8 +19,17 @@ router.post("/", async (req, res) => {
   const token = user.generateAuthToken();
   req.session.token = token;
 
-  res.send(token);
+  return res.send(token);
 });
+
+
+router.get("/logout", (req,res) => {
+  if(!req.session.token) return res.send('User already logged out.');
+  
+  req.session.token = null;
+  return res.send('User logged out successfully');
+})
+
 
 function validate(req) {
   const schema = Joi.object({

@@ -13,7 +13,6 @@ const config = require("../config.json")
 
 
 router.get("/",async (req,res) => {
-    console.log(path.join(__dirname, '../indexer.js'))
     const content = await Content.find({});
     res.send(content);
 });
@@ -33,7 +32,7 @@ router.post("/", admin , async (req,res) => {
 
     }catch(err){
 
-        res.status(404).send(err.stderr);
+        return res.status(404).send(err.stderr);
     }
 
     try{
@@ -42,9 +41,9 @@ router.post("/", admin , async (req,res) => {
         result.on("message",  async (response) => {
             if(response.length !== 0)
                 await Content.insertMany(response)
-                res.send("Done")
+                return res.send("Done")
 
-            res.send(404).send("No indexable data found in provided wiki")
+            return res.send(404).send("No indexable data found in provided wiki")
         });
     }catch(ex){
         res.send(str(ex))
