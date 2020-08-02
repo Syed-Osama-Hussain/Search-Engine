@@ -5,7 +5,7 @@ const NavBar = ( {user} ) => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="navbar-brand" to="/">
-        Vidly
+        FindMyWiki
       </Link>
       <button
         className="navbar-toggler"
@@ -20,12 +20,6 @@ const NavBar = ( {user} ) => {
       </button>
       <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div className="navbar-nav">
-          <NavLink className="nav-item nav-link" to="/movies">
-            Content
-          </NavLink>
-          <NavLink className="nav-item nav-link" to="/customers">
-            History
-          </NavLink>
           {!user && <React.Fragment>
           <NavLink className="nav-item nav-link" to="/login">
             Login
@@ -35,8 +29,8 @@ const NavBar = ( {user} ) => {
           </NavLink>
           </React.Fragment>}
           {user && <React.Fragment>
-          <NavLink className="nav-item nav-link" to="/profile">
-            {user.name}
+          <NavLink className="nav-item nav-link" to="/history">
+          History
           </NavLink>
           <NavLink className="nav-item nav-link" to="/logout">
             Logout
