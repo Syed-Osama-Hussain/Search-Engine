@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
 import NavBar from "./components/navBar";
+import SearchPage from "./components/searchPage";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import Logout from "./components/logout";
@@ -8,6 +9,7 @@ import NotFound from "./components/notFound";
 import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
+
 
 class App extends Component {
   state = {};
@@ -29,6 +31,7 @@ class App extends Component {
         <Route path="/login" component={LoginForm} />
         <Route path="/logout" component={Logout} />
         <Route path="/not-found" component={NotFound} />
+        <Route path="/" component={SearchPage} />
         <Redirect to="/not-found" />
       </Switch>
     </main>

@@ -6,8 +6,8 @@ function contentUrl(id){
     return `${apiEndPoint}/${id}`;
 }
 
-export function getSearchContent() {
-    return http.get(`${apiEndPoint}/search`);
+export function getSearchContent(query) {
+    return http.post(`${apiEndPoint}/search`,{query: query});
 }
 
 export function getContent(contentId) {

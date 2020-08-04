@@ -14,8 +14,5 @@ module.exports = function Search(query,data){
         }
     }
 
-    if(result.length === 0) return Error("No result found.");
-
     return result;
-
 }

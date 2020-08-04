@@ -13,6 +13,7 @@ export async function login(email, password){
 
 export function logout(){
     localStorage.removeItem(tokenKey);
+    return http.get(`${apiEndPoint}/logout`);
 }
 
 export function loginWithJwt(jwt){

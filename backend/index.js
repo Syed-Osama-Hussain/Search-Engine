@@ -23,7 +23,7 @@ app.use("/content",content);
 app.use("/user",user);
 app.use("/auth",auth);
 
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || 3001;
 app.listen(port, "0.0.0.0", function() {
     console.log("Listening on Port 3000");
 });

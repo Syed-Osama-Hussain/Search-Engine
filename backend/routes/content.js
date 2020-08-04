@@ -75,6 +75,9 @@ router.get("/:id", async (req,res) => {
 router.post("/search", async (req,res) => {
     const content = await Content.find({});
     const result = searcher(req.body.query,content);
+    
+    if(result.length === 0) return res.status(404).send("Sorry! No result found.");
+
     res.send(result);
 });
 
