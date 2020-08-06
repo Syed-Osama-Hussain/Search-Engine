@@ -3,6 +3,7 @@ import { Route, Redirect } from "react-router-dom";
 import auth from "../../services/authService";
 
 const ProtectedRoute = ({ component:Component, render, ...rest }) => {
+  console.log({...rest})
   return (
     <Route
     {...rest}
@@ -12,7 +13,7 @@ const ProtectedRoute = ({ component:Component, render, ...rest }) => {
             pathname: "/login",
             state: { from: props.location }
         }}/>;
-        return Component ? <Component {...props}/> : render(props);              
+        return Component ? <Component user={rest.user} {...props}/> : render(props);              
    }} />
 
   );

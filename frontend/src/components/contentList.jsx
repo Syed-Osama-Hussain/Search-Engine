@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import Content from "./content";
 
 class ContentList extends Component {
@@ -14,9 +15,15 @@ class ContentList extends Component {
 
   handleClick = (content) => {
     console.log(content, "clicked.");
+    this.setState({redirect:content});
+    
   }
 
   render() {
+    const redirect = this.state.redirect;
+
+    if(redirect) return (<Redirect push to={{ pathname:`content/${redirect._id}`, state:{data:redirect}}}/>)
+
     return (
        this.state.data.map( content => (
         <div key={content._id}>
