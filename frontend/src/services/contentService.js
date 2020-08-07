@@ -15,5 +15,6 @@ export function getContent(contentId) {
 }
 
 export function indexContent(url) {
-    return http.post(apiEndPoint, url)
+    console.log(url)
+    return http.post(apiEndPoint, {url:url})
 }

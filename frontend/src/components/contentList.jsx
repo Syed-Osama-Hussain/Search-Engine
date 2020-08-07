@@ -14,20 +14,19 @@ class ContentList extends Component {
   };
 
   handleClick = (content) => {
-    console.log(content, "clicked.");
-    this.setState({redirect:content});
-    
+    this.setState({redirect:content});    
   }
 
   render() {
     const redirect = this.state.redirect;
 
-    if(redirect) return (<Redirect push to={{ pathname:`content/${redirect._id}`, state:{data:redirect}}}/>)
+    if(redirect) return (<Redirect push to={{ pathname:`/content/${redirect._id}`, state:{data:redirect}}}/>)
 
     return (
        this.state.data.map( content => (
         <div key={content._id}>
             <Content content={content} handleClick={this.handleClick}/>
+            <br/>
         </div>
       ))
     

@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
 });
 
 
-router.get("/:id/history", async (req,res) => {
+router.get("/:id/history",auth, async (req,res) => {
     const user = await User.findById(req.params.id).populate("history")
     res.send(user.history);
 });

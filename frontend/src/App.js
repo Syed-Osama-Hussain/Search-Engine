@@ -9,10 +9,10 @@ import NotFound from "./components/notFound";
 import ContentDetail from "./components/contentDetail";
 import ProtectedRoute from "./components/common/protectedRoute"
 import UserHistory from "./components/history";
+import WikiForm from "./components/wikiForm";
 import auth from "./services/authService";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css';
-
 
 
 
@@ -32,8 +32,9 @@ class App extends Component {
     <NavBar user={user}/>
     <main className="container">
       <Switch> 
-        <Route path="/content/:id" component = {ContentDetail} />
         <ProtectedRoute path="/user/history" user={user} component = {UserHistory} />
+        <ProtectedRoute path="/content/index" component = {WikiForm} />
+        <Route path="/content/:id" component = {ContentDetail} />
         <Route path="/register" component={RegisterForm} />
         <Route path="/login" component={LoginForm} />
         <Route path="/logout" component={Logout} />

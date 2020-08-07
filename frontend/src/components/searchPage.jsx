@@ -37,9 +37,9 @@ class SearchPage extends Form {
   render() {
     const {content} = this.state;
     return (
-      <div className="container mt-4">
-        <div>
-            <h1>FindMyWiki</h1>
+      <div className="container mt-4" id="mainContainer">
+        <div >
+            <h1 className="headingText">FindMyWiki</h1>
             <form onSubmit={this.handleSubmit}>
             {this.renderInput("query", "")}
             {this.renderButton("Search")}

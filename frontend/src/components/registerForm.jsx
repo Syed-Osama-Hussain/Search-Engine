@@ -14,7 +14,7 @@ class RegisterForm extends Form {
     username: Joi.string()
       .required()
       .email()
-      .label("Username"),
+      .label("Email"),
     password: Joi.string()
       .required()
       .min(5)
@@ -40,10 +40,10 @@ class RegisterForm extends Form {
 
   render() {
     return (
-      <div>
-        <h1>Register</h1>
+      <div className="container mt-4" id="mainContainer">
+        <h1 className="headingText">Register</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Username")}
+          {this.renderInput("username", "Email")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Name")}
           {this.renderButton("Register")}

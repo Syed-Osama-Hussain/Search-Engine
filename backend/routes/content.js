@@ -8,6 +8,7 @@ const exec = util.promisify(require('child_process').exec);
 const { Content } = require('../models/content');
 const { User } = require('../models/user');
 const admin = require('../middleware/admin')
+const authCheck = require('../middleware/authCheck')
 const searcher = require('../searcher');
 const config = require("../config.json")
 
@@ -52,18 +53,16 @@ router.post("/", admin , async (req,res) => {
 });
 
 
-router.get("/:id", async (req,res) => {
+router.get("/:id",authCheck,async (req,res) => {
     const content = await Content.findById(req.params.id).select("-__v");
-
     if (!content)
     return res
       .status(404)
       .send("The result with given Id was not found.");
     
-    if(req.session.token)
+    if(req.user)
     {    
-        let user = jwt.verify(req.session.token,config.jwtPrivateKey)
-        user = await User.findById(user._id)
+        const user = await User.findById(req.user._id)
         user.history.push(content._id);
         await user.save();  
     }

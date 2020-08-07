@@ -28,10 +28,14 @@ const NavBar = ( {user} ) => {
             Register
           </NavLink>
           </React.Fragment>}
+          { user && user.isAdmin && <NavLink className="nav-item nav-link" to="/content/index">
+          Add Wiki
+          </NavLink>}
           {user && <React.Fragment>
           <NavLink className="nav-item nav-link" to="/user/history">
           History
           </NavLink>
+
           <NavLink className="nav-item nav-link" to="/logout">
             Logout
           </NavLink>

@@ -1,0 +1,21 @@
+@media (max-width: 480px) {
+    #mainContainer{
+      width:100%;
+    }
+    
+    .headingText{
+      margin-left:110px;
+    }
+  }
+  
+  
+  @media (min-width: 500px) {
+    #mainContainer{
+      width:50%;
+    }
+  
+    .headingText{
+      margin-left:145px;
+    }
+}
+  
