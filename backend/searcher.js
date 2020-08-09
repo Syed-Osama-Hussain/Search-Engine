@@ -2,17 +2,15 @@
 
 module.exports = function Search(query,data){
     let result = [];
-
+    query = query.split(" ")
     for(let i=0;i<data.length;i++){
         const item = data[i];
         if(item.tags.some(tag => query.includes(tag))){
             result.push(item);
-            // console.log(`found in tags: ${item.tags}`)
-        }else if(item.content.indexOf(query) !== -1){
+        }else if(query.some(function(v) { return item.content.indexOf(v) >= 0; })){
             result.push(item);
-            // console.log(`found in content: ${item.content}`)
         }
     }
-
     return result;
 }
+

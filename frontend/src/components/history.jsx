@@ -42,20 +42,28 @@ class UserHistory extends Component {
 
     return(         
 
-    <div>
+    <div className="container mt-4">
       {user && <h1 className="mb-3">History for {this.state.user.name}</h1>}
         { history &&  <ul >
-        {history.map(his => <div className="mb-5 card col-lg-4" key={his._id + Math.random()}>
-            <h5 className="mb-2"> {his.title} </h5>
-            <button className="btn btn-primary col-6 mb-2" onClick={() => this.handleClick(his)}>View Page</button>                        
+        {data.map(his => <div className="mb-5 col-lg-4" key={his._id + Math.random()}>
+            <div className="card">
+            <div className="card-header">
+              {his.title}
+            </div>
+            <div className="card-body">
+            <h5 className="card-title"> {his.heading} </h5>
+            <a href="#" className="btn btn-primary card-link" onClick={() => this.handleClick(his)}>View Page</a>                        </div>
+            </div>
             </div>)}
         </ul> }
+        { history && 
         <Pagination
-            itemsCount={data.length}
+            itemsCount={history.length}
             pageSize={pageSize}
             currentPage={currentPage}
             onPageChange={this.handlePageChange}
           />
+        }
     </div>
     );
   }

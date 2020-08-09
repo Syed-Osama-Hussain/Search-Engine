@@ -1,3 +1,9 @@
+body{
+background-color: azure;  
+font-family: Candara,Calibri,Segoe,Segoe UI,Optima,Arial,sans-serif;
+       
+}
+
 @media (max-width: 480px) {
     #mainContainer{
       width:100%;
@@ -5,6 +11,12 @@
     
     .headingText{
       margin-left:110px;
+      font-weight: bolder;
+    }
+    
+    .mainHeading{
+      margin-left: 105px;
+      font-weight: bolder;
     }
   }
   
@@ -16,6 +28,35 @@
   
     .headingText{
       margin-left:145px;
+      font-weight: bolder;
+    }
+
+    .mainHeading{
+      margin-left: 115px;
+      font-weight: bolder;
     }
 }
   
+.title{
+  color:#609;
+}
+
+.title:hover{
+  text-decoration: underline;
+}
+
+.form-height input{
+  height: 30px;
+}
+
+#findColor{
+  color: #388E8E;
+}
+
+#myColor{
+  color: #79CDCD;
+}
+
+#wikiColor{
+  color: #D1EEEE;
+}

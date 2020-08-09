@@ -1,12 +1,16 @@
 import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
+import auth from "../services/authService";
+import { Redirect } from "react-router-dom";
 import { indexContent } from "../services/contentService";
+import Loader from 'react-loader-spinner';
 
 class WikiForm extends Form {
   state = {
     data: { wikiUrl: ""},
-    errors: {}
+    errors: {},
+    loading: false
   };
 
   schema = {
@@ -15,8 +19,14 @@ class WikiForm extends Form {
       .label("Wiki Url")
   };
 
+  componentDidMount(){
+    const user = auth.getCurrentUser();
+    this.setState({user:user})
+  }
+
   doSubmit = async () => {
     const { data } = this.state;
+    this.setState({loading:true});
     try{
       await indexContent(data.wikiUrl);
       data.wikiUrl = ""
@@ -34,10 +44,25 @@ class WikiForm extends Form {
   };
 
   render() {
+     if(this.state.user && !this.state.user.isAdmin) return <Redirect to="/login"/>
+
+     if(this.state.loading){  
+       return (<div
+         style={{
+           width: "100%",
+           height: "100",
+           display: "flex",
+           justifyContent: "center",
+           alignItems: "center"
+         }}
+       >
+         <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+       </div>)
+     }
     return (
       <div className="container mt-4" id="mainContainer">
-            <h1 className="headingText">Wiki Form</h1>
-            <form onSubmit={this.handleSubmit}>
+            <h1 className="headingText"><span id="findColor">Wiki</span> <span id="myColor">Form</span></h1>
+            <form className="form-height" onSubmit={this.handleSubmit}>
             {this.renderInput("wikiUrl", "")}
             {this.renderButton("Submit")}
             </form>

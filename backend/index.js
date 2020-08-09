@@ -5,9 +5,10 @@ const session = require('express-session');
 const content = require('./routes/content');
 const user = require('./routes/users')
 const auth = require('./routes/auth');
+const config = require('./config.json')
 
-
-var url = process.env.DATABASEURL || "mongodb://localhost/search_engine"
+// Local "mongodb://localhost/search_engine"
+var url = process.env.DATABASEURL || config.databaseURL
 mongoose.connect(url, {useNewUrlParser: true,useUnifiedTopology: true,'useCreateIndex': true});
   
 app.use(express.json());
@@ -25,5 +26,5 @@ app.use("/auth",auth);
 
 let port = process.env.PORT || 3001;
 app.listen(port, "0.0.0.0", function() {
-    console.log("Listening on Port 3000");
+    console.log("Listening on Port 3001");
 });

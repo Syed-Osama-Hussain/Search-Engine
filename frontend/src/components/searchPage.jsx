@@ -21,9 +21,8 @@ class SearchPage extends Form {
     const { data } = this.state;
     try{
       const content = await getSearchContent(data.query);
-      console.log(content.data)
       data.query = ""
-      this.setState({content:content.data,data})
+      this.setState({content:[...content.data],data})
 
     }catch(ex){
       if(ex.response && ex.response.status === 404){
@@ -39,14 +38,14 @@ class SearchPage extends Form {
     return (
       <div className="container mt-4" id="mainContainer">
         <div >
-            <h1 className="headingText">FindMyWiki</h1>
-            <form onSubmit={this.handleSubmit}>
+            <h1 className="mainHeading"><span id="findColor">Find</span><span id="myColor">My</span><span id="wikiColor">Wiki</span></h1>
+            <form className="form-height" onSubmit={this.handleSubmit}>
             {this.renderInput("query", "")}
             {this.renderButton("Search")}
             </form>
         </div>
         <br/>
-        {content.length !== 0 && <ContentList data={content}/>}
+        {content.length !== 0 && <ContentList data={[...content]}/>}
       </div>
     );
   }

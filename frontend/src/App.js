@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Route, Redirect, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import NavBar from "./components/navBar";
 import SearchPage from "./components/searchPage";
 import LoginForm from "./components/loginForm";
@@ -29,6 +30,7 @@ class App extends Component {
 
     return (
     <React.Fragment> 
+      <ToastContainer />
     <NavBar user={user}/>
     <main className="container">
       <Switch> 

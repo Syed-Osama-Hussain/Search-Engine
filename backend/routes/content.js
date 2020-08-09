@@ -40,10 +40,20 @@ router.post("/", admin , async (req,res) => {
         const result = childProc.fork(path.join(__dirname, '../indexer.js'),[wikiUrl,`wiki/${dirname}`]);
 
         result.on("message",  async (response) => {
-            if(response.length !== 0)
-                await Content.insertMany(response)
-                return res.send("Done")
+            try{
+                const { stdout, stderr } = await exec(`rm -rf wiki/${dirname}`)
+        
+            }catch(err){
+        
+                return res.status(404).send(err.stderr);
+            }
 
+            if(response.length !== 0)
+            {
+                await Content.insertMany(response)
+            
+                return res.send("Done")
+            }
             return res.send(404).send("No indexable data found in provided wiki")
         });
     }catch(ex){
@@ -54,7 +64,13 @@ router.post("/", admin , async (req,res) => {
 
 
 router.get("/:id",authCheck,async (req,res) => {
-    const content = await Content.findById(req.params.id).select("-__v");
+    let content;
+    try{
+        content = await Content.findById(req.params.id).select("-__v");
+
+    }catch(ex){
+        return res.status(400).send("Please send an ID.");
+    }
     if (!content)
     return res
       .status(404)
