@@ -9,12 +9,13 @@ const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
 
   return (
     <nav>
-      <ul className="pagination">
+      <ul className="pagination flex-wrap" max-size="10">
         {pages.map(page => (
           <li
             key={page}
             className={page === currentPage ? "page-item active" : "page-item"}
           >
+            {/* eslint-disable-next-line */}
             <a className="page-link" onClick={() => onPageChange(page)}>
               {page}
             </a>

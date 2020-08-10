@@ -40,10 +40,10 @@ class LoginForm extends Form {
     const style = {'align':'center'}
     return (
       <div className="container mt-4" id="mainContainer">
-        <h1 className="headingText">Login</h1>
+        <h1 id="findColor" className="headingText">Login</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("email", "Email")}
-          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("email", "Email", "test@test.com")}
+          {this.renderInput("password", "Password","12345" ,"password")}
           {this.renderButton("Login",style)}
         </form>
       </div>

@@ -3,12 +3,14 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import ContentList from "./contentList";
 import { getSearchContent } from "../services/contentService";
+import Loader from 'react-loader-spinner';
 
 class SearchPage extends Form {
   state = {
     data: { query: ""},
     errors: {},
-    content: []
+    content: [],
+    loading: false
   };
 
   schema = {
@@ -17,30 +19,47 @@ class SearchPage extends Form {
       .label("Query")
   };
 
-  doSubmit = async () => {
+  doSubmit = () => {
     const { data } = this.state;
-    try{
-      const content = await getSearchContent(data.query);
-      data.query = ""
-      this.setState({content:[...content.data],data})
-
-    }catch(ex){
-      if(ex.response && ex.response.status === 404){
-        const errors = { ...this.state.errors }
-        errors.query = ex.response.data;
-        this.setState({errors});
+    this.setState({loading:true}, async () => {
+      try{
+        const content = await getSearchContent(data.query);
+        data.query = ""
+        this.setState({content:[...content.data],data,loading:false})
+  
+      }catch(ex){
+        if(ex.response && ex.response.status === 404){
+          const errors = { ...this.state.errors }
+          errors.query = ex.response.data;
+          this.setState({errors,loading:false});
+        }
       }
-    }
+    })
+
   };
 
   render() {
     const {content} = this.state;
+    if(this.state.loading){  
+      return (<div
+        style={{
+          width: "100%",
+          height: "100",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "100px"
+        }}
+      >
+        <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+      </div>)
+    }
     return (
       <div className="container mt-4" id="mainContainer">
         <div >
             <h1 className="mainHeading"><span id="findColor">Find</span><span id="myColor">My</span><span id="wikiColor">Wiki</span></h1>
             <form className="form-height" onSubmit={this.handleSubmit}>
-            {this.renderInput("query", "")}
+            {this.renderInput("query", "","Enter Query Here")}
             {this.renderButton("Search")}
             </form>
         </div>

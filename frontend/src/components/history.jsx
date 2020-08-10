@@ -52,6 +52,7 @@ class UserHistory extends Component {
             </div>
             <div className="card-body">
             <h5 className="card-title"> {his.heading} </h5>
+            {/* eslint-disable-next-line */}
             <a href="#" className="btn btn-primary card-link" onClick={() => this.handleClick(his)}>View Page</a>                        </div>
             </div>
             </div>)}

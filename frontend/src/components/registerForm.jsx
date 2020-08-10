@@ -41,11 +41,11 @@ class RegisterForm extends Form {
   render() {
     return (
       <div className="container mt-4" id="mainContainer">
-        <h1 className="headingText">Register</h1>
+        <h1 id="myColor" className="headingText">Register</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Email")}
-          {this.renderInput("password", "Password", "password")}
-          {this.renderInput("name", "Name")}
+          {this.renderInput("username", "Email", "test@test.com")}
+          {this.renderInput("password", "Password","12345","password")}
+          {this.renderInput("name", "Name", "User")}
           {this.renderButton("Register")}
         </form>
       </div>

@@ -24,23 +24,25 @@ class WikiForm extends Form {
     this.setState({user:user})
   }
 
-  doSubmit = async () => {
+  doSubmit = () => {
     const { data } = this.state;
-    this.setState({loading:true});
-    try{
-      await indexContent(data.wikiUrl);
-      data.wikiUrl = ""
-      const { state } = this.props.location;
-
-      window.location = state ? state.from.pathname : "/";
-
-    }catch(ex){
-      if(ex.response && (ex.response.status === 404 || ex.response.status === 400)){
-        const errors = { ...this.state.errors }
-        errors.wikiUrl = ex.response.data;
-        this.setState({errors});
+    this.setState({loading:true}, async () => {
+      try{
+        await indexContent(data.wikiUrl);
+        data.wikiUrl = ""
+        const { state } = this.props.location;
+        this.setState({loading:false})
+        window.location = state ? state.from.pathname : "/";
+  
+      }catch(ex){
+        if(ex.response && (ex.response.status === 404 || ex.response.status === 400)){
+          const errors = { ...this.state.errors }
+          errors.wikiUrl = ex.response.data;
+          this.setState({errors,loading:false});
+        }
       }
-    }
+    });
+
   };
 
   render() {
@@ -63,7 +65,7 @@ class WikiForm extends Form {
       <div className="container mt-4" id="mainContainer">
             <h1 className="headingText"><span id="findColor">Wiki</span> <span id="myColor">Form</span></h1>
             <form className="form-height" onSubmit={this.handleSubmit}>
-            {this.renderInput("wikiUrl", "")}
+            {this.renderInput("wikiUrl", "", "Enter your Wiki URL")}
             {this.renderButton("Submit")}
             </form>
       </div>
