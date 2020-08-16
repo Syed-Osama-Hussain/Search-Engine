@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import Content from "./content";
-import Pagination from "./common/pagination";
+import Pagination from "react-js-pagination";
 import { paginate } from "../utils/paginate";
 
 
@@ -40,10 +40,13 @@ class ContentList extends Component {
         </div>
       ))}
       <Pagination
-      itemsCount={data.length}
-      pageSize={pageSize}
-      currentPage={currentPage}
-      onPageChange={this.handlePageChange}
+      totalItemsCount={data.length}
+      itemsCountPerPage={pageSize}
+      pageRangeDisplayed={5}
+      activePage={currentPage}
+      onChange={this.handlePageChange}
+      itemClass="page-item"
+      linkClass="page-link"
     />
   </div>
     

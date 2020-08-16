@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import auth from "../services/authService";
 import { getUserHistory } from "../services/userService";
-import Pagination from "./common/pagination";
+import Pagination from "react-js-pagination";
 import { paginate } from "../utils/paginate";
 
 class UserHistory extends Component {
@@ -59,11 +59,14 @@ class UserHistory extends Component {
         </ul> }
         { history && 
         <Pagination
-            itemsCount={history.length}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            onPageChange={this.handlePageChange}
-          />
+        totalItemsCount={history.length}
+        itemsCountPerPage={pageSize}
+        activePage={currentPage}
+        onChange={this.handlePageChange}
+        pageRangeDisplayed={5}
+        itemClass="page-item"
+        linkClass="page-link"  
+        />
         }
     </div>
     );
